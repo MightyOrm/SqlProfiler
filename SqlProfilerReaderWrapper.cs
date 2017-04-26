@@ -21,7 +21,7 @@ namespace SqlProfiler
 
 		public override int RecordsAffected => throw new NotImplementedException();
 
-#if !COREFX
+#if NETFRAMEWORK
 		public override void Close()
 		{
 			throw new NotImplementedException();
@@ -118,7 +118,7 @@ namespace SqlProfiler
 			throw new NotImplementedException();
 		}
 
-#if !COREFX
+#if NETFRAMEWORK
 		public override DataTable GetSchemaTable()
 		{
 			throw new NotImplementedException();

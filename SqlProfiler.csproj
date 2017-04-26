@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp1.1;net40</TargetFrameworks>
-    <PackageVersion>0.0.1-alpha</PackageVersion>
+    <TargetFrameworks>netcoreapp1.1;netstandard1.4;net40</TargetFrameworks>
+    <PackageVersion>0.0.1-alpha1</PackageVersion>
     <Authors>Mike Beaton</Authors>
     <Description>A simple SQL profiler for System.Data.DbCommand, hopefully with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set some provider specific properties.
 
@@ -23,11 +23,25 @@ Alpha version.</Description>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' != 'net40'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+    <DefineConstants>NETFRAMEWORK</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <DefineConstants>COREFX</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <DefineConstants>NETSTANDARD</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
   </ItemGroup>
