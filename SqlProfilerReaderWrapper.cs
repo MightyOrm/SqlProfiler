@@ -21,6 +21,13 @@ namespace SqlProfiler
 
 		public override int RecordsAffected => throw new NotImplementedException();
 
+#if !COREFX
+		public override void Close()
+		{
+			throw new NotImplementedException();
+		}
+#endif
+
 		public override bool GetBoolean(int ordinal)
 		{
 			throw new NotImplementedException();
@@ -110,6 +117,13 @@ namespace SqlProfiler
 		{
 			throw new NotImplementedException();
 		}
+
+#if !COREFX
+		public override DataTable GetSchemaTable()
+		{
+			throw new NotImplementedException();
+		}
+#endif
 
 		public override string GetString(int ordinal)
 		{

@@ -13,7 +13,6 @@ namespace SqlProfiler
 	internal class DynamicCommandWrapper : DynamicObject
 	{
 		private DbCommand Wrapped;
-		private TypeInfo TypeInfo = typeof(DbCommand).GetTypeInfo();
 
 		public DynamicCommandWrapper(DbCommand wrapped)
 		{
@@ -22,28 +21,36 @@ namespace SqlProfiler
 
 		public override bool TryGetMember(GetMemberBinder binder, out object result)
 		{
-			var property = TypeInfo.GetProperty(binder.Name);
-			
+#if COREFX
+			var property = typeof(DbCommand).GetTypeInfo().GetProperty(binder.Name);
+#else
+			var property = typeof(DbCommand).GetProperty(binder.Name);
+#endif
+
 			if (property == null)
 			{
 				result = null;
 				return false;
 			}
 
-			result = property.GetValue(Wrapped);
+			result = property.GetValue(Wrapped, null);
 			return true;
 		}
 
 		public override bool TrySetMember(SetMemberBinder binder, object value)
 		{
-			var property = TypeInfo.GetProperty(binder.Name);
+#if COREFX
+			var property = typeof(DbCommand).GetTypeInfo().GetProperty(binder.Name);
+#else
+			var property = typeof(DbCommand).GetProperty(binder.Name);
+#endif
 			
 			if (property == null)
 			{
 				return false;
 			}
 
-			property.SetValue(Wrapped, value);
+			property.SetValue(Wrapped, value, null);
 			return true;
 		}
 	}
