@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp1.1;netstandard1.4;net40</TargetFrameworks>
-    <PackageVersion>0.0.1-alpha1</PackageVersion>
+    <PackageVersion>0.0.1-alpha2</PackageVersion>
     <Authors>Mike Beaton</Authors>
     <Description>A simple SQL profiler for System.Data.DbCommand, hopefully with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set some provider specific properties.
 
