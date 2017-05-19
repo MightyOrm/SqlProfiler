@@ -5,7 +5,7 @@ using System.Data.Common;
 
 namespace SqlProfiler
 {
-	public class SqlProfilerReaderWrapper : DbDataReader
+	public class ReaderWrapper : DbDataReader
 	{
 		public override object this[int ordinal] => throw new NotImplementedException();
 
