@@ -14,13 +14,19 @@ namespace SqlProfiler
 		/// Create delegating meta-object: methods and properties which can't be handled by the outer object are handled by the inner object, which
 		/// can be an <see cref="IDynamicMetaObjectProvider"/> (including, but not limited to <see cref="MSDynamicObject"/>) or just a plain object.
 		/// </summary>
-		public DelegatingMetaObject(Expression expression, object outerObject, string wrappedPropertyName, BindingFlags binding = BindingFlags.Instance)
+		public DelegatingMetaObject(Expression expression, object outerObject, string innnerMemberName, BindingFlags bindingAttr = BindingFlags.Instance)
 			: base(expression, BindingRestrictions.Empty, outerObject)
 		{
-			PropertyInfo innerProperty = outerObject.GetType().GetProperty(wrappedPropertyName, binding);
-			var innerObject = innerProperty.GetValue(outerObject);
+			var outerType = outerObject.GetType();
+			PropertyInfo innerProperty = outerType.GetProperty(innnerMemberName, bindingAttr);
+			FieldInfo innerField = (innerProperty != null) ? null : outerType.GetField(innnerMemberName, bindingAttr);
+			if (innerProperty == null && innerField == null)
+			{
+				throw new InvalidOperationException(string.Format("There is no {0} Property or Field named '{1}' in {2}", bindingAttr, innnerMemberName, outerType));
+			}
+			var innerObject = innerProperty != null ? innerProperty.GetValue(outerObject) : innerField.GetValue(outerObject);
 			Expression self = Expression.Convert(Expression, LimitType);
-			Expression innerExpression = Expression.Property(self, innerProperty);
+			Expression innerExpression = innerProperty != null ? Expression.Property(self, innerProperty) : Expression.Field(self, innerField);
 			var innerDynamicProvider = innerObject as IDynamicMetaObjectProvider;
 			if (innerDynamicProvider != null)
 			{
