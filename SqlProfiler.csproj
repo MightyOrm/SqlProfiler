@@ -3,7 +3,7 @@
   <PropertyGroup>
 	<!-- The reflection methods we need to wrap DbCommand are not available in netcoreapp1.1 or netstandard1.4 -->
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <PackageVersion>0.0.1-alpha2</PackageVersion>
+    <PackageVersion>0.0.1-alpha3</PackageVersion>
     <Authors>Mike Beaton</Authors>
     <Description>A simple SQL profiler for System.Data.DbCommand, hopefully with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set some provider specific properties.
 
