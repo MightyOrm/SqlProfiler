@@ -12,8 +12,13 @@ namespace SqlProfiler
 
 		/// <summary>
 		/// Create delegating meta-object: methods and properties which can't be handled by the outer object are handled by the inner object, which
-		/// can be an <see cref="IDynamicMetaObjectProvider"/> (including, but not limited to <see cref="MSDynamicObject"/>) or just a plain object.
+		/// can be an <see cref="IDynamicMetaObjectProvider"/> (including, but not limited to <see cref="DynamicObject"/>) or just a plain object.
 		/// </summary>
+		/// <remarks>
+		/// This one is using Expression.Property or Expression.Field and it notices when you change the object to a different instance.
+		/// However... this is even harder than I thought - this one still doesn't work if you change the type of the object at the binding site
+		/// (e.g. sometimes a wrapping SqlProfiler and sometimes an unwrapped SqlCommand...). Still, this is good enough for us.
+		/// </remarks>
 		public DelegatingMetaObject(Expression expression, object outerObject, string innnerMemberName, BindingFlags bindingAttr = BindingFlags.Instance)
 			: base(expression, BindingRestrictions.Empty, outerObject)
 		{
@@ -34,6 +39,7 @@ namespace SqlProfiler
 			}
 			else
 			{
+				// support non-dynamic inner object
 				_innerMetaObject = new DynamicMetaObject(innerExpression, BindingRestrictions.Empty, innerObject);
 			}
 		}

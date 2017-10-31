@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40</TargetFrameworks>
+	<!-- The reflection methods we need to wrap DbCommand are not available in netcoreapp1.1 or netstandard1.4 -->
+    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
     <PackageVersion>0.0.1-alpha2</PackageVersion>
     <Authors>Mike Beaton</Authors>
     <Description>A simple SQL profiler for System.Data.DbCommand, hopefully with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set some provider specific properties.
@@ -27,17 +28,26 @@ Alpha version.</Description>
     <DefineConstants>NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1' Or '$(TargetFramework)' == 'netcoreapp2.0'">
     <DefineConstants>COREFX</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.4' Or '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp1.1'">
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
+	<!-- The TypeExtensions don't help - they don't add calls, only wrap existing calls avoiding the call to GetTypeInfo() -->
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
@@ -46,8 +56,8 @@ Alpha version.</Description>
     <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <Reference Include="Microsoft.CSharp" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

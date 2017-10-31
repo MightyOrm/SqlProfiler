@@ -16,6 +16,7 @@ namespace SqlProfiler
 		/// The wrapped DbCommand
 		/// </summary>
 		/// <returns></returns>
+		/// <remarks>This is public for simple debugging by the user; the call to <see cref="DelegatingMetaObject"/> needs to add <see cref="BindingFlags.Public"/> to match.</remarks>
 		public DbCommand Wrapped { get; }
 
 		private PropertyInfo _DbConnection;
@@ -49,7 +50,7 @@ namespace SqlProfiler
 		/// <returns></returns>
 		public DynamicMetaObject GetMetaObject(Expression expression)
 		{
-			return new DelegatingMetaObject(expression, this, "Wrapped");
+			return new DelegatingMetaObject(expression, this, nameof(Wrapped), BindingFlags.Instance | BindingFlags.Public);
 		}
 
 		public override string CommandText { get { return Wrapped.CommandText; } set { Wrapped.CommandText = value; } }
