@@ -3,9 +3,9 @@
   <PropertyGroup>
 	<!-- The reflection methods we need to wrap DbCommand are not available in netcoreapp1.1 or netstandard1.4 -->
     <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
-    <PackageVersion>0.0.1-alpha3</PackageVersion>
+    <PackageVersion>0.0.1-alpha4</PackageVersion>
     <Authors>Mike Beaton</Authors>
-    <Description>A simple SQL profiler for System.Data.DbCommand, hopefully with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set some provider specific properties.
+    <Description>A simple SQL profiler for System.Data.DbCommand, with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set provider specific properties.
 
 Alpha version.</Description>
     <PackageIconUrl>https://raw.githubusercontent.com/MikeBeaton/SqlProfiler/master/yellow_magnify.png</PackageIconUrl>
