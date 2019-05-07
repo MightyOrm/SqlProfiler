@@ -7,10 +7,11 @@ using System.Reflection;
 
 namespace SqlProfiler
 {
-	/// <summary>
-	/// Generic <see cref="DbCommand"/> wrapper with dynamic tricks to allow easy access to properties of wrapped command
-	/// </summary>
-	public class CommandWrapper : DbCommand, IDynamicMetaObjectProvider
+    /// <summary>
+    /// Generic <see cref="DbCommand"/> wrapper with dynamic tricks to allow easy access to properties of wrapped command
+    /// </summary>
+    [System.ComponentModel.DesignerCategory("")]
+    public class CommandWrapper : DbCommand, IDynamicMetaObjectProvider
 	{
 		/// <summary>
 		/// The wrapped DbCommand
@@ -19,12 +20,12 @@ namespace SqlProfiler
 		/// <remarks>This is public for simple debugging by the user; the call to <see cref="DelegatingMetaObject"/> needs to add <see cref="BindingFlags.Public"/> to match.</remarks>
 		public DbCommand Wrapped { get; }
 
-		private PropertyInfo _DbConnection;
-		private PropertyInfo _DbParameterCollection;
-		private PropertyInfo _DbTransaction;
+		private readonly PropertyInfo _DbConnection;
+		private readonly PropertyInfo _DbParameterCollection;
+		private readonly PropertyInfo _DbTransaction;
 
-		private MethodInfo _CreateDbParameter;
-		private MethodInfo _ExecuteDbDataReader;
+		private readonly MethodInfo _CreateDbParameter;
+		private readonly MethodInfo _ExecuteDbDataReader;
 
 		/// <summary>
 		/// Create the command wrapper
@@ -118,9 +119,17 @@ namespace SqlProfiler
 		protected override DbParameter CreateDbParameter()
 		{
 			var profiling = PreCreateDbParameter(Wrapped);
-			var reader = (DbParameter)_CreateDbParameter.Invoke(Wrapped, null);
-			PostCreateDbParameter(profiling);
-			return reader;
+            DbParameter param;
+            try
+            {
+                param = (DbParameter)_CreateDbParameter.Invoke(Wrapped, null);
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
+            PostCreateDbParameter(profiling);
+			return param;
 		}
 
 		// optional user hooks
@@ -131,8 +140,16 @@ namespace SqlProfiler
 		protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
 		{
 			var profiling = PreExecuteDbDataReader(Wrapped, behavior);
-			var reader = (DbDataReader)_ExecuteDbDataReader.Invoke(Wrapped, new object[] { behavior });
-			PostExecuteDbDataReader(profiling, behavior);
+            DbDataReader reader;
+            try
+            {
+                reader = (DbDataReader)_ExecuteDbDataReader.Invoke(Wrapped, new object[] { behavior });
+            }
+            catch (TargetInvocationException ex)
+            {
+                throw ex.InnerException;
+            }
+            PostExecuteDbDataReader(profiling, behavior);
 			return reader;
 		}
 

@@ -60,13 +60,4 @@ Alpha version.</Description>
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="SimpleCommandWrapper.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="CommandWrapper.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>

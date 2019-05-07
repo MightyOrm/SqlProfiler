@@ -7,7 +7,8 @@ using System.Dynamic;
 
 namespace SqlProfiler
 {
-	public class SimpleCommandWrapper : CommandWrapper
+    [System.ComponentModel.DesignerCategory("")]
+    public class SimpleCommandWrapper : CommandWrapper
 	{
 		public SimpleCommandWrapper(DbCommand wrapped) : base(wrapped)
 		{

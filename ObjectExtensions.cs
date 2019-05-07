@@ -24,7 +24,6 @@ namespace SqlProfiler
 			return mi;
 		}
 
-		// N.B. NETSTANDARD2_0 NETCOREAPP1_1 NET40 etc. are defined automatically from the 'target framework moniker'(s) in <TargetFrameworks>
 #if NET40
 		internal static void SetValue(this PropertyInfo prop, object obj, object value)
 		{
