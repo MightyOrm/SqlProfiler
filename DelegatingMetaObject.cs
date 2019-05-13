@@ -5,8 +5,11 @@ using System.Reflection;
 
 namespace SqlProfiler
 {
-	// TO DO: internal
-	public class DelegatingMetaObject : DynamicMetaObject
+    /// <summary>
+    /// Delegating meta-object: methods and properties which can't be handled by the outer object are handled by the inner object, which
+    /// can be an <see cref="IDynamicMetaObjectProvider"/> (including, but not limited to <see cref="DynamicObject"/>) or just a plain object.
+    /// </summary>
+    internal class DelegatingMetaObject : DynamicMetaObject
 	{
 		private readonly DynamicMetaObject _innerMetaObject;
 
@@ -44,6 +47,12 @@ namespace SqlProfiler
 			}
 		}
 
+        /// <summary>
+        /// Dynamic invoke member
+        /// </summary>
+        /// <param name="binder">Binder</param>
+        /// <param name="args">Arguments</param>
+        /// <returns></returns>
 		public override DynamicMetaObject BindInvokeMember(InvokeMemberBinder binder, DynamicMetaObject[] args)
 		{
 			DynamicMetaObject retval = _innerMetaObject.BindInvokeMember(binder, args);
@@ -54,6 +63,12 @@ namespace SqlProfiler
 			return retval;
 		}
 
+        /// <summary>
+        /// Dynamic set member
+        /// </summary>
+        /// <param name="binder">Binder</param>
+        /// <param name="value">Value</param>
+        /// <returns></returns>
 		public override DynamicMetaObject BindSetMember(SetMemberBinder binder, DynamicMetaObject value)
 		{
 			DynamicMetaObject retval = _innerMetaObject.BindSetMember(binder, value);
@@ -64,6 +79,11 @@ namespace SqlProfiler
 			return retval;
 		}
 
+        /// <summary>
+        /// Dynamic get member
+        /// </summary>
+        /// <param name="binder">Binder</param>
+        /// <returns></returns>
 		public override DynamicMetaObject BindGetMember(GetMemberBinder binder)
 		{
 			DynamicMetaObject retval = _innerMetaObject.BindGetMember(binder);

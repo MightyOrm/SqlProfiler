@@ -1,4 +1,4 @@
-﻿#if NETFRAMEWORK
+﻿#if false
 /* ****************************************************************************
  *
  * Copyright (c) Microsoft Corporation. 

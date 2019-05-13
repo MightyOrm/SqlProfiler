@@ -1,0 +1,633 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SqlProfiler</name>
+    </assembly>
+    <members>
+        <member name="T:SqlProfiler.CommandWrapper">
+            <summary>
+            Generic <see cref="T:System.Data.Common.DbCommand"/> wrapper with dynamic tricks to allow easy access to driver-specific properties of wrapped command
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.Wrapped">
+            <summary>
+            The wrapped command
+            </summary>
+            <returns></returns>
+            <remarks>This is public for simple debugging by the user; the call to <see cref="T:SqlProfiler.DelegatingMetaObject"/> needs to add <see cref="F:System.Reflection.BindingFlags.Public"/> to match.</remarks>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.#ctor(System.Data.Common.DbCommand)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="wrapped">The command to wrap</param>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.GetMetaObject(System.Linq.Expressions.Expression)">
+            <summary>
+            Supports dynamically getting and setting properties on the wrapped DbCommand
+            </summary>
+            <param name="expression"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.CommandText">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbCommand.CommandText"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.CommandTimeout">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbCommand.CommandTimeout"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.CommandType">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbCommand.CommandType"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.DesignTimeVisible">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbCommand.DesignTimeVisible"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.UpdatedRowSource">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbCommand.UpdatedRowSource"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.DbConnection">
+            <summary>
+            Wrapped non-public <see cref="P:System.Data.Common.DbCommand.DbConnection"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.DbParameterCollection">
+            <summary>
+            Wrapped non-public <see cref="P:System.Data.Common.DbCommand.DbParameterCollection"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.CommandWrapper.DbTransaction">
+            <summary>
+            Wrapped non-public <see cref="P:System.Data.Common.DbCommand.DbTransaction"/> property
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.Cancel">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbCommand.Cancel"/> method, with <see cref="M:SqlProfiler.CommandWrapper.PreCancel(System.Data.Common.DbCommand)"/> and <see cref="M:SqlProfiler.CommandWrapper.PostCancel(System.Data.Common.DbCommand,System.Object)"/> hooks
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PreCancel(System.Data.Common.DbCommand)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbCommand.Cancel"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PostCancel(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbCommand.Cancel"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject">Whatever was returned from <see cref="M:SqlProfiler.CommandWrapper.PreCancel(System.Data.Common.DbCommand)"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.ExecuteNonQuery">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbCommand.ExecuteNonQuery"/> method, with <see cref="M:SqlProfiler.CommandWrapper.PreExecuteNonQuery(System.Data.Common.DbCommand)"/> and <see cref="M:SqlProfiler.CommandWrapper.PostExecuteNonQuery(System.Data.Common.DbCommand,System.Object)"/> hooks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PreExecuteNonQuery(System.Data.Common.DbCommand)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbCommand.ExecuteNonQuery"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PostExecuteNonQuery(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbCommand.ExecuteNonQuery"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.ExecuteScalar">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbCommand.ExecuteScalar"/> method, with <see cref="M:SqlProfiler.CommandWrapper.PreExecuteScalar(System.Data.Common.DbCommand)"/> and <see cref="M:SqlProfiler.CommandWrapper.PostExecuteScalar(System.Data.Common.DbCommand,System.Object)"/> hooks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PreExecuteScalar(System.Data.Common.DbCommand)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbCommand.ExecuteScalar"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PostExecuteScalar(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbCommand.ExecuteScalar"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.Prepare">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbCommand.Prepare"/> method, with <see cref="M:SqlProfiler.CommandWrapper.PrePrepare(System.Data.Common.DbCommand)"/> and <see cref="M:SqlProfiler.CommandWrapper.PostPrepare(System.Data.Common.DbCommand,System.Object)"/> hooks
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PrePrepare(System.Data.Common.DbCommand)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbCommand.Prepare"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PostPrepare(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbCommand.Prepare"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.CreateDbParameter">
+            <summary>
+            Wrapped non-public <see cref="M:System.Data.Common.DbCommand.CreateDbParameter"/> method, with <see cref="M:SqlProfiler.CommandWrapper.PreCreateDbParameter(System.Data.Common.DbCommand)"/> and <see cref="M:SqlProfiler.CommandWrapper.PostCreateDbParameter(System.Data.Common.DbCommand,System.Object)"/> hooks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PreCreateDbParameter(System.Data.Common.DbCommand)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbCommand.CreateDbParameter"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PostCreateDbParameter(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbCommand.CreateDbParameter"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.ExecuteDbDataReader(System.Data.CommandBehavior)">
+            <summary>
+            Wrapped non-public <see cref="M:System.Data.Common.DbCommand.ExecuteDbDataReader(System.Data.CommandBehavior)"/> method, with <see cref="M:SqlProfiler.CommandWrapper.PreExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior)"/> and <see cref="M:SqlProfiler.CommandWrapper.PostExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior,System.Object)"/> hooks
+            </summary>
+            <param name="behavior">The command behavior</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PreExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbCommand.ExecuteDbDataReader(System.Data.CommandBehavior)"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="behavior">The command behavior</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.CommandWrapper.PostExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbCommand.ExecuteDbDataReader(System.Data.CommandBehavior)"/> hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="behavior">The command behavior</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlProfiler.DelegatingMetaObject">
+            <summary>
+            Delegating meta-object: methods and properties which can't be handled by the outer object are handled by the inner object, which
+            can be an <see cref="T:System.Dynamic.IDynamicMetaObjectProvider"/> (including, but not limited to <see cref="T:System.Dynamic.DynamicObject"/>) or just a plain object.
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.DelegatingMetaObject.#ctor(System.Linq.Expressions.Expression,System.Object,System.String,System.Reflection.BindingFlags)">
+            <summary>
+            Create delegating meta-object: methods and properties which can't be handled by the outer object are handled by the inner object, which
+            can be an <see cref="T:System.Dynamic.IDynamicMetaObjectProvider"/> (including, but not limited to <see cref="T:System.Dynamic.DynamicObject"/>) or just a plain object.
+            </summary>
+            <remarks>
+            This one is using Expression.Property or Expression.Field and it notices when you change the object to a different instance.
+            However... this is even harder than I thought - this one still doesn't work if you change the type of the object at the binding site
+            (e.g. sometimes a wrapping SqlProfiler and sometimes an unwrapped SqlCommand...). Still, this is good enough for us.
+            </remarks>
+        </member>
+        <member name="M:SqlProfiler.DelegatingMetaObject.BindInvokeMember(System.Dynamic.InvokeMemberBinder,System.Dynamic.DynamicMetaObject[])">
+            <summary>
+            Dynamic invoke member
+            </summary>
+            <param name="binder">Binder</param>
+            <param name="args">Arguments</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.DelegatingMetaObject.BindSetMember(System.Dynamic.SetMemberBinder,System.Dynamic.DynamicMetaObject)">
+            <summary>
+            Dynamic set member
+            </summary>
+            <param name="binder">Binder</param>
+            <param name="value">Value</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.DelegatingMetaObject.BindGetMember(System.Dynamic.GetMemberBinder)">
+            <summary>
+            Dynamic get member
+            </summary>
+            <param name="binder">Binder</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlProfiler.FactoryWrapper">
+            <summary>
+            Generic <see cref="T:System.Data.Common.DbProviderFactory"/> wrapper
+            </summary>
+        </member>
+        <member name="F:SqlProfiler.FactoryWrapper.Wrapped">
+            <summary>
+            The wrapped factory
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.#ctor(System.Data.Common.DbProviderFactory)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="wrapped">The factory to wrap</param>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.WrapCommand(System.Data.Common.DbCommand)">
+            <summary>
+            Wrap database commands
+            </summary>
+            <param name="wrapped">The command to wrap</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.CreateCommand">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbProviderFactory.CreateCommand"/> method, with <see cref="M:SqlProfiler.FactoryWrapper.PreCreateCommand(System.Data.Common.DbProviderFactory)"/> and <see cref="M:SqlProfiler.FactoryWrapper.PostCreateCommand(System.Data.Common.DbProviderFactory,System.Object)"/> hooks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.PreCreateCommand(System.Data.Common.DbProviderFactory)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbProviderFactory.CreateCommand"/> hook
+            </summary>
+            <param name="factory">The wrapped factory</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.PostCreateCommand(System.Data.Common.DbProviderFactory,System.Object)">
+            <summary>
+            Post-<see cref="M:System.Data.Common.DbProviderFactory.CreateCommand"/> hook
+            </summary>
+            <param name="factory">The wrapped factory</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.WrapConnection(System.Data.Common.DbConnection)">
+            <summary>
+            NB Returns non-wrapped connection object. TO DO: Make this return ConnectionWrapper.
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.CreateConnection">
+            <summary>
+            <see cref="M:System.Data.Common.DbProviderFactory.CreateConnection"/> hook, with <see cref="M:SqlProfiler.FactoryWrapper.PreCreateConnection(System.Data.Common.DbProviderFactory)"/> and <see cref="M:SqlProfiler.FactoryWrapper.PostCreateConnection(System.Data.Common.DbProviderFactory,System.Object)"/> hooks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.PreCreateConnection(System.Data.Common.DbProviderFactory)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbProviderFactory.CreateConnection"/> hook
+            </summary>
+            <param name="factory">The wrapped factory</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.FactoryWrapper.PostCreateConnection(System.Data.Common.DbProviderFactory,System.Object)">
+            <summary>
+            Pre-<see cref="M:System.Data.Common.DbProviderFactory.CreateConnection"/> hook
+            </summary>
+            <param name="factory">The wrapped factory</param>
+            <param name="profilingObject">Whatever was returned from the pre-method hook</param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlProfiler.ReaderWrapper">
+            <summary>
+            Generic <see cref="T:System.Data.Common.DbDataReader"/> wrapper - prototype only, not currently implemented or used
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.Item(System.Int32)">
+            <summary>
+            Position based indexer
+            </summary>
+            <param name="ordinal">Index</param>
+            <returns></returns>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.Item(System.String)">
+            <summary>
+            Name based indexer
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.Depth">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbDataReader.Depth"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.FieldCount">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbDataReader.FieldCount"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.HasRows">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbDataReader.HasRows"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.IsClosed">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbDataReader.IsClosed"/> property
+            </summary>
+        </member>
+        <member name="P:SqlProfiler.ReaderWrapper.RecordsAffected">
+            <summary>
+            Wrapped <see cref="P:System.Data.Common.DbDataReader.RecordsAffected"/> property
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.Close">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.Close"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetBoolean(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetBoolean(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetByte(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetByte(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetChar(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetChar(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetDataTypeName(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetDataTypeName(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetDateTime(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetDateTime(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetDecimal(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetDecimal(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetDouble(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetDouble(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetEnumerator">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetEnumerator"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetFieldType(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetFieldType(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetFloat(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetFloat(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetGuid(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetGuid(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetInt16(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetInt16(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetInt32(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetInt32(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetInt64(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetInt64(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetName(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetName(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetOrdinal(System.String)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetOrdinal(System.String)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetSchemaTable">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetSchemaTable"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetString(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetString(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetValue(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetValue(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.GetValues(System.Object[])">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.GetValues(System.Object[])"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.IsDBNull(System.Int32)">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.IsDBNull(System.Int32)"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.NextResult">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.NextResult"/> method
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.ReaderWrapper.Read">
+            <summary>
+            Wrapped <see cref="M:System.Data.Common.DbDataReader.Read"/> method
+            </summary>
+        </member>
+        <member name="T:SqlProfiler.Simple.DbCommandMethod">
+            <summary>
+            The <see cref="T:System.Data.Common.DbCommand"/> methods which are intercepted by <see cref="T:SqlProfiler.Simple.SimpleCommandProfiler"/>.
+            </summary>
+        </member>
+        <member name="F:SqlProfiler.Simple.DbCommandMethod.ExecuteDbDataReader">
+            <summary>
+            <see cref="M:System.Data.Common.DbCommand.ExecuteDbDataReader(System.Data.CommandBehavior)"/>
+            </summary>
+        </member>
+        <member name="F:SqlProfiler.Simple.DbCommandMethod.ExecuteNonQuery">
+            <summary>
+            <see cref="M:System.Data.Common.DbCommand.ExecuteNonQuery"/>
+            </summary>
+        </member>
+        <member name="F:SqlProfiler.Simple.DbCommandMethod.ExecuteScalar">
+            <summary>
+            <see cref="M:System.Data.Common.DbCommand.ExecuteScalar"/>
+            </summary>
+        </member>
+        <member name="T:SqlProfiler.Simple.SimpleCommandProfiler">
+            <summary>
+            Simple <see cref="T:System.Data.Common.DbCommand"/> profiler.
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.Simple.SimpleCommandProfiler.#ctor(System.Data.Common.DbCommand,System.Action{SqlProfiler.Simple.DbCommandMethod,System.Data.Common.DbCommand,System.Nullable{System.Data.CommandBehavior}})">
+            <summary>
+            Construct simple profiling command wrapper.
+            </summary>
+            <param name="wrapped">Command to wrap</param>
+            <param name="intercept">Profiling action</param>
+        </member>
+        <member name="M:SqlProfiler.Simple.SimpleCommandProfiler.PreExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior)">
+            <summary>
+            PreExecuteDbDataReader hook
+            </summary>
+            <param name="command"></param>
+            <param name="behavior"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.Simple.SimpleCommandProfiler.PreExecuteNonQuery(System.Data.Common.DbCommand)">
+            <summary>
+            PreExecuteNonQuery hook
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.Simple.SimpleCommandProfiler.PreExecuteScalar(System.Data.Common.DbCommand)">
+            <summary>
+            PreExecuteScalar hook
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="T:SqlProfiler.Timing.TimingCommandWrapper">
+            <summary>
+            Timing command wrapper. Not supported. Needs updating to use ILogger, etc., at least.
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.#ctor(System.Data.Common.DbCommand)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="wrapped">Command to wrap</param>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.PreExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior)">
+            <summary>
+            PreExecuteDbDataReader hook
+            </summary>
+            <param name="command"></param>
+            <param name="behavior"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.PostExecuteDbDataReader(System.Data.Common.DbCommand,System.Data.CommandBehavior,System.Object)">
+            <summary>
+            PostExecuteDbDataReader hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="behavior">The command behaviour</param>
+            <param name="profilingObject"></param>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.PreExecuteNonQuery(System.Data.Common.DbCommand)">
+            <summary>
+            PreExecuteNonQuery hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.PostExecuteNonQuery(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            PostExecuteNonQuery hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject"></param>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.PreExecuteScalar(System.Data.Common.DbCommand)">
+            <summary>
+            PreExecuteScalar hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.PostExecuteScalar(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            PostExecuteScalar hook
+            </summary>
+            <param name="command">The wrapped command</param>
+            <param name="profilingObject"></param>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.ShowSql(System.Data.Common.DbCommand)">
+            <summary>
+            Log SQL for command
+            </summary>
+            <param name="command">The command</param>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingCommandWrapper.ShowTime(System.Data.Common.DbCommand,System.Object)">
+            <summary>
+            Log time taken for command
+            </summary>
+            <param name="command">The command</param>
+            <param name="profilingObject">The profiling object, which will be a <see cref="T:System.Diagnostics.Stopwatch"/></param>
+        </member>
+        <member name="T:SqlProfiler.Timing.TimingFactoryWrapper">
+            <summary>
+            Timing factory wrapper. Not supported. Needs updating to use ILogger, etc., at least.
+            </summary>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingFactoryWrapper.#ctor(System.Data.Common.DbProviderFactory)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="wrapped">Factory to wrap</param>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingFactoryWrapper.WrapCommand(System.Data.Common.DbCommand)">
+            <summary>
+            Wrap command in <see cref="T:SqlProfiler.Timing.TimingCommandWrapper"/>.
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SqlProfiler.Timing.TimingFactoryWrapper.WrapConnection(System.Data.Common.DbConnection)">
+            <summary>
+            Return connection as is.
+            </summary>
+            <param name="connection"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

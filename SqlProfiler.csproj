@@ -36,6 +36,10 @@ Alpha version.</Description>
     <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+    <DocumentationFile>C:\OpenSource\SqlProfiler\SqlProfiler.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
