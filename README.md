@@ -1,8 +1,8 @@
 # SqlProfiler
 
-A SQL profiler for `System.Data.Common` objects, with some clever .NET `dynamic` tricks so that it can work as a profiler even if your code needs to set ADO.NET provider-specific properties.
+[Available on NuGet](https://www.nuget.org/packages/SqlProfiler).
 
-Beta version.
+A SQL profiler for `System.Data.Common` objects, with some clever .NET `dynamic` tricks so that it can work as a profiler even if your code needs to set ADO.NET provider-specific properties.
 
 ## Pre-Requisites
 
