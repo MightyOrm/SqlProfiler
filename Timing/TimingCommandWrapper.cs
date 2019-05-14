@@ -10,7 +10,6 @@ namespace SqlProfiler.Timing
     /// <summary>
     /// Timing command wrapper. Not supported. Needs updating to use ILogger, etc., at least.
     /// </summary>
-    [System.ComponentModel.DesignerCategory("")]
     public class TimingCommandWrapper : CommandWrapper
 	{
         /// <summary>

@@ -10,7 +10,6 @@ namespace SqlProfiler
     /// <summary>
     /// Generic <see cref="DbCommand"/> wrapper with dynamic tricks to allow easy access to driver-specific properties of wrapped command
     /// </summary>
-    [System.ComponentModel.DesignerCategory("")]
     public class CommandWrapper : DbCommand, IDynamicMetaObjectProvider
 	{
 		/// <summary>

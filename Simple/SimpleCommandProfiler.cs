@@ -10,7 +10,6 @@ namespace SqlProfiler.Simple
     /// <summary>
     /// Simple <see cref="DbCommand"/> profiler.
     /// </summary>
-    [System.ComponentModel.DesignerCategory("")]
     public class SimpleCommandProfiler : CommandWrapper
     {
         private readonly Action<DbCommandMethod, DbCommand, CommandBehavior?> _intercept;
