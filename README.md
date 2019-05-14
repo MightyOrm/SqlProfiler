@@ -14,7 +14,7 @@ b) When you do access any ADO.NET provider-specific properties, you always use t
 ```c#
 public void SetOracleThings(DbCommand command)
 {
-	// These are properties of Oracle.DataAccess.Client.OracleCommand, not of System.Data.Common, but
+    // These are properties of Oracle.DataAccess.Client.OracleCommand, not of System.Data.Common, but
     // this code works fine, and without requiring any explicit dependency on the Oracle ADO.NET library
     ((dynamic)command).BindByName = true;
     ((dynamic)command).InitialLONGFetchSize = -1;
@@ -56,8 +56,8 @@ To be able to have much more visibility into how `DbCommand` is being used, wrap
 // Define the wrapper
 public class MyCommandWrapper : CommandWrapper
 {
-	// Or any other more complex constructor as long as it calls base(wrapped)
-	public MyCommandWrapper(DbCommand wrapped) : base (wrapped)
+    // Or any other more complex constructor as long as it calls base(wrapped)
+    public MyCommandWrapper(DbCommand wrapped) : base (wrapped)
     {
     }
     
