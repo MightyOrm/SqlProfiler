@@ -1,6 +1,4 @@
-# SqlProfiler
-
-[Available on NuGet](https://www.nuget.org/packages/SqlProfiler).
+# SqlProfiler [![NuGet](https://img.shields.io/nuget/v/SqlProfiler.svg)](https://nuget.org/packages/SqlProfiler)
 
 A SQL profiler for `System.Data.Common` objects, with some clever .NET `dynamic` tricks so that it can work as a profiler even if your code needs to set ADO.NET provider-specific properties.
 
