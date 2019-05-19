@@ -4,10 +4,9 @@ A SQL profiler for `System.Data.Common` objects, with some clever .NET `dynamic`
 
 ## Pre-Requisites
 
-This library will work for any `System.Data.Common` items which you wish to wrap and profile (at the moment only `DbCommand` and `DbProviderFactory` are supported, but the intention is to add support for `DbConnection` and `DbDataReader` as well), as long as you either:
+This library will work for any `System.Data.Common` items which you wish to wrap and profile (at the moment only `DbCommand` and `DbProviderFactory` are supported, but the intention is to add support for `DbConnection` and `DbDataReader` as well), as long as you:
 
-a) Do not access any ADO.NET provider-specific properties, or,
-b) When you do access any ADO.NET provider-specific properties, you always use this dynamic trick:
+a) Either do not access any ADO.NET provider-specific properties, or b) if you do access any ADO.NET provider-specific properties, always use this dynamic trick:
 
 ```c#
 public void SetOracleThings(DbCommand command)
@@ -19,15 +18,15 @@ public void SetOracleThings(DbCommand command)
 }
 ```
 
-To be clear, to use this library, *do not use* code like:
+What you can't do, if you want to profile `DbCommand` calls with this library, is take an *explicit* dependency on a provider specific library. So you can't use code like this:
 
 ```c#
 ((OracleCommand)command).BindByName = true;
 ```
 
-We cannot intercept this.
+We cannot intercept that.
 
-As long as the sections of code you want to profile obey the above rules (which, as noted, includes all code which doesn't access ADO.NET provider specifc properties at all), and as long as there is a place at which you can pass in a wrapped `DbCommand` then you can profile your - or even someone else's! - SQL code with this library.
+As long as the sections of code you want to profile obey the above rules (which, as noted, includes all code which doesn't access ADO.NET provider specifc properties at all), and as long as there is a place at which you can pass in a wrapped `DbCommand` then you can profile your - or even someone else's - SQL code with this library.
 
 ## Simple usage
 
