@@ -1,4 +1,4 @@
-# ![logo](https://raw.githubusercontent.com/MikeBeaton/SqlProfiler/master/yellow_magnify_32x32.png) SqlProfiler
+# ![logo](https://raw.githubusercontent.com/MightyOrm/SqlProfiler/master/yellow_magnify_32x32.png) SqlProfiler
 
 [![NuGet](https://img.shields.io/nuget/v/SqlProfiler.svg)](https://nuget.org/packages/SqlProfiler)
 
