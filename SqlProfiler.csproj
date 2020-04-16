@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard1.4;netstandard2.0;net40</TargetFrameworks>
     <Version>0.3.1</Version>
     <Authors>Mike Beaton</Authors>
-    <Description>A SQL profiler for `System.Data.Common` objects, with some clever .NET `dynamic` tricks so that it can work as a profiler even if your code needs to set ADO.NET provider-specific properties.</Description>
+    <Description>A SQL profiler for System.Data.Common objects, with some clever .NET dynamic tricks so that it can work as a profiler even if your code needs to set ADO.NET provider-specific properties.</Description>
     <Copyright>Copyright (c) 2017-2020 Mike Beaton</Copyright>
     <PackageIcon>icon\yellow_magnify_128x128.png</PackageIcon>
     <PackageProjectUrl>https://github.com/MightyOrm/SqlProfiler</PackageProjectUrl>
